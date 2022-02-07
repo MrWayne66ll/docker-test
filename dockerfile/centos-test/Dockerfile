@@ -3,8 +3,16 @@ USER root
 
 # 更新阿里云源
 COPY "Centos-8.repo" /etc/yum.repos.d/
-RUN mv /etc/yum.repos.d/Centos-8.repo /etc/yum.repos.d/Centos-Base.repo && \
-	cp /etc/yum.repos.d/Centos-Base.repo /etc/yum.repos.d/CentOS-AppStream.repo && \ 
-	dnf makecache
+COPY "Centos-8-appstream.repo" /etc/yum.repos.d/
+RUN rm -f /etc/yum.repos.d/CentOS-* && \
+	mv /etc/yum.repos.d/Centos-8.repo /etc/yum.repos.d/Centos-Base.repo && \
+	mv /etc/yum.repos.d/Centos-8-appstream.repo /etc/yum.repos.d/CentOS-AppStream.repo && \
+	yum clean all && yum makecache
 
-RUN yum -y install net-tools.x86_64
+# 安装常用软件
+RUN yum -y install net-tools.x86_64 && \
+	yum -y install wget && \
+	yum -y install telnet* && \
+	yum -y install mysql mysql-server && \
+	yum -y install vim && \
+	yum -y install git
