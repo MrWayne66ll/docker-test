@@ -1,4 +1,4 @@
-FROM centos:latest
+FROM centos:centos8
 USER root
 
 # 更新阿里云源
@@ -15,4 +15,5 @@ RUN yum -y install net-tools.x86_64 && \
 	yum -y install telnet* && \
 	yum -y install mysql mysql-server && \
 	yum -y install vim && \
-	yum -y install git
+	yum -y install git && \
+	echo 'alias ll="ls -alhF"' >> ~/.bashrc
